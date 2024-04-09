@@ -1,0 +1,74 @@
+const quizData = [
+    {
+        question: "What is the capital of France?",
+        options: ["Paris", "Berlin", "Rome", "Madrid"],
+        answer: "Paris"
+    },
+    {
+        question: "What is 2 + 2?",
+        options: ["3", "4", "5", "6"],
+        answer: "4"
+    },
+    {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Earth", "Mars", "Venus", "Mercury"],
+        answer: "Mars"
+    },
+    {
+        question: "What is the chemical symbol for water?",
+        options: ["H2O", "CO2", "O2", "H2SO4"],
+        answer: "H2O"
+    },
+    {
+        question: "Who wrote 'Romeo and Juliet'?",
+        options: ["William Shakespeare", "Jane Austen", "Charles Dickens", "Leo Tolstoy"],
+        answer: "William Shakespeare"
+    }
+];
+
+let currentQuestion = 0;
+
+function loadQuestion() {
+    const questionNumberElement = document.getElementById('question-number');
+    questionNumberElement.textContent = `Question ${currentQuestion + 1}`;
+
+    const questionElement = document.getElementById('question');
+    questionElement.textContent = quizData[currentQuestion].question;
+
+    const optionsElement = document.getElementById('options');
+    optionsElement.innerHTML = '';
+
+    quizData[currentQuestion].options.forEach((option, index) => {
+        const optionElement = document.createElement('div');
+        optionElement.classList.add('option');
+        optionElement.textContent = option;
+        optionElement.addEventListener('click', () => checkAnswer(index));
+        optionsElement.appendChild(optionElement);
+    });
+}
+
+function checkAnswer(selectedOption) {
+    const correctAnswer = quizData[currentQuestion].answer;
+    const selectedAnswer = quizData[currentQuestion].options[selectedOption];
+
+    if (selectedAnswer === correctAnswer) {
+        document.getElementsByClassName('option')[selectedOption].classList.add('correct');
+    } else {
+        document.getElementsByClassName('option')[selectedOption].classList.add('incorrect');
+    }
+
+    setTimeout(nextQuestion, 1000);
+}
+
+function nextQuestion() {
+    currentQuestion++;
+    if (currentQuestion < quizData.length) {
+        loadQuestion();
+    } else {
+        alert("Quiz completed!");
+        // You can add code here to handle quiz completion
+    }
+}
+
+// Start the quiz
+loadQuestion();
